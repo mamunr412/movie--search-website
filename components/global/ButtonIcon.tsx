@@ -6,11 +6,17 @@ type ButtonIconProps = {
   onAction: () => void | any;
 };
 
-const ButtonIcon = ({ title, color, iconClass, sizeText, onAction }: ButtonIconProps) => {
+const ButtonIcon = ({
+  title,
+  color,
+  iconClass,
+  sizeText,
+  onAction,
+}: ButtonIconProps) => {
   return (
     <button
       onClick={onAction}
-      className={`flex items-center gap-x-2 ${sizeText} font-medium ${color}`}
+      className={`flex items-center gap-x-2 ${sizeText} font-medium ${color} ms-3`}
       type="button"
     >
       <i className={`${iconClass} text-lg`}></i>

@@ -14,11 +14,30 @@ const MovieDetailHero = ({ movieId }: MovieDetailHeroProps) => {
     queryKey: ["get-movie-by-id", movieId],
     queryFn: () => fetchMovieById(movieId),
   });
+  const savedData = localStorage.getItem("watchlist");
+  const parseData = savedData ? JSON.parse(savedData) : [];
+
+  const find = parseData?.find(
+    (item: any) => Number(item.id) === Number(movieId)
+  );
+
+  const toggleWatchlist = () => {
+    let newWatchlist;
+    if (find?.id) {
+      newWatchlist = parseData.filter(
+        (item: any) => item.id !== Number(movieId)
+      );
+      console.log(newWatchlist);
+    } else {
+      newWatchlist = [...parseData, data];
+    }
+    // Update localStorage
+    localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
+  };
 
   if (isLoading) {
     return <LoadingSpinner width={24} height={24} color="#818cf8" />;
   }
-
   return (
     <div
       style={{
@@ -58,18 +77,28 @@ const MovieDetailHero = ({ movieId }: MovieDetailHeroProps) => {
               </p>
             </div>
             <p className="text-[12px] mt-3 text-white mb-5">{data?.overview}</p>
-            <div className="max-w-[55%] lg:max-w-full  grid grid-cols-4 gap-2">
+            <div className="max-w-[88%] lg:max-w-full  flex items-center ">
+              <p className="text-lg text-white mr-2"> Genres : </p>
               {data?.genres?.map((item: any, idx: number) => (
                 <Link
-                  className="w-full block"
+                  // className="w-full block"
                   href={`/genre/${item.id}`}
                   key={idx}
                 >
-                  <button className="bg-indigo-400 w-full text-[12px] font-semibold p-2 rounded-full text-white">
+                  <span className="bg-indigo-400 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+                    {" "}
                     {item?.name}
-                  </button>
+                  </span>
                 </Link>
               ))}
+            </div>
+            <div>
+              <button
+                onClick={toggleWatchlist}
+                className={`bg-indigo-400 text-white mt-10 px-2 py-1 rounded`}
+              >
+                {find?.id ? "Remove from Watchlist" : "Add to Watchlist"}
+              </button>
             </div>
           </div>
         </div>
