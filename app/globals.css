@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scroll-behavior:smooth;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+#scroll-top-button {
+    animation-name: scrollTopAnimate;
+    animation-duration: 1.3s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+
+@keyframes scrollTopAnimate {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(12px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
